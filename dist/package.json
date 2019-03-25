@@ -1,0 +1,35 @@
+{
+  "name": "ng-smart-tabs",
+  "version": "1.0.2",
+  "description": "",
+  "main": "bundles/ng-smart-tabs.umd.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular 2",
+    "tab",
+    "tabs",
+    "ng-smart-tabs",
+    "material",
+    "slider",
+    "line",
+    "menu",
+    "nav",
+    "tab-bar",
+    "sliding"
+  ],
+  "author": "Andrew Wormald",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SwiftySpartan/ng-smart-tabs.git"
+  },
+  "peerDependencies": {
+    "@angular/core": "^6.1.0",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "6.0.0",
+    "zone.js": "^0.8.26"
+  }
+}
