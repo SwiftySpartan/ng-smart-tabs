@@ -1,15 +1,16 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
 var NgSmartTabsDirective = /** @class */ (function () {
-    function NgSmartTabsDirective(el, router) {
+    function NgSmartTabsDirective(el) {
         this.el = el;
-        this.router = router;
         this.lineColor = '#EF476F';
+        this.lineThickness = '1px';
+        this.lineBorderRadius = '0px';
         this.underlineSidePadding = 0;
         this.horizontalChangeSpeed = '1';
         this.verticalChangeSpeed = '1';
         this.opacityChangeSpeed = '1.25';
         this.widthChangeSpeed = '0.35';
+        this.zIndex = 1;
     }
     NgSmartTabsDirective.prototype.onClick = function () {
         this.setLine();
@@ -20,8 +21,7 @@ var NgSmartTabsDirective = /** @class */ (function () {
         this.parentAttributeIdentifier = this.el.nativeElement.parentElement.attributes[0].name;
         this.nativeElement = this.el.nativeElement;
         if (this.activeOnUrlMatch) {
-            this.urlMatcher(this.router.url); // For init load
-            this.initUrlWatcher();
+            this.urlMatcher(location.pathname);
         }
     };
     NgSmartTabsDirective.prototype.createNewFollowLine = function (shadowElement) {
@@ -29,12 +29,13 @@ var NgSmartTabsDirective = /** @class */ (function () {
         this.followLine.style.width = shadowElement.getBoundingClientRect().right
             - shadowElement.getBoundingClientRect().left
             - this.underlineSidePadding + "px";
-        this.followLine.style.height = '1px';
+        this.followLine.style.height = this.lineThickness;
+        this.followLine.style.borderRadius = this.lineBorderRadius;
         this.followLine.style.backgroundColor = this.lineColor;
         this.followLine.style.position = 'fixed';
         this.followLine.style.top = shadowElement.getBoundingClientRect().bottom + "px";
         this.followLine.style.left = shadowElement.getBoundingClientRect().left + this.underlineSidePadding / 2 + "px";
-        this.followLine.style.zIndex = '1';
+        this.followLine.style.zIndex = this.zIndex ? "" + this.zIndex : '1';
         this.followLine.style.transition = "left " + this.horizontalChangeSpeed + "s cubic-bezier(0.25, 0.1, 0.25, 1),\n                                        top " + this.verticalChangeSpeed + "s cubic-bezier(0.25, 0.1, 0.25, 1),\n                                        width " + this.widthChangeSpeed + "s cubic-bezier(0.25, 0.1, 0.25, 1),\n                                        opacity " + this.opacityChangeSpeed + "s cubic-bezier(0.25, 0.1, 0.25, 1)";
         this.followLine.id = this.parentAttributeIdentifier + "-follow-line";
         if (this.isFollowLineInvisible) {
@@ -72,14 +73,6 @@ var NgSmartTabsDirective = /** @class */ (function () {
                 - _this.underlineSidePadding + "px";
         });
     };
-    NgSmartTabsDirective.prototype.initUrlWatcher = function () {
-        var _this = this;
-        this.router.events.subscribe(function (event) {
-            if (event instanceof NavigationEnd) {
-                _this.urlMatcher(event.urlAfterRedirects);
-            }
-        });
-    };
     NgSmartTabsDirective.prototype.urlMatcher = function (eventUrl) {
         if (!this.nativeElement) {
             return;
@@ -91,10 +84,7 @@ var NgSmartTabsDirective = /** @class */ (function () {
             if (urlSegment === eventUrl) {
                 return this.updateLine(this.nativeElement);
             }
-            else if (urlSegment.slice(-1) === '*' &&
-                eventUrl.includes(urlSegment.split('*')[0]) ||
-                urlSegment.slice(-1) === '*' &&
-                    urlSegment.split('*')[0] === eventUrl) {
+            else if (eventUrl.includes(urlSegment.split('*')[0])) {
                 // This condition takes care of /route/* configuration
                 return this.updateLine(this.nativeElement);
             }
@@ -107,21 +97,23 @@ var NgSmartTabsDirective = /** @class */ (function () {
     ];
     /** @nocollapse */
     NgSmartTabsDirective.ctorParameters = function () { return [
-        { type: ElementRef },
-        { type: Router }
+        { type: ElementRef }
     ]; };
     NgSmartTabsDirective.propDecorators = {
         isFollowLineInvisible: [{ type: Input }],
         lineColor: [{ type: Input }],
+        lineThickness: [{ type: Input }],
+        lineBorderRadius: [{ type: Input }],
         activeOnUrlMatch: [{ type: Input }],
         underlineSidePadding: [{ type: Input }],
         horizontalChangeSpeed: [{ type: Input }],
         verticalChangeSpeed: [{ type: Input }],
         opacityChangeSpeed: [{ type: Input }],
         widthChangeSpeed: [{ type: Input }],
+        zIndex: [{ type: Input }],
         onClick: [{ type: HostListener, args: ['click',] }]
     };
     return NgSmartTabsDirective;
 }());
 export { NgSmartTabsDirective };
-//# sourceMappingURL=luno-follow-line.directive.js.map
+//# sourceMappingURL=follow-line.directive.js.map

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgSmartTabsDirective } from './luno-follow-line.directive';
+import { NgSmartTabsDirective } from './follow-line.directive';
+export { NgSmartTabsDirective };
 var NgSmartTabsModule = /** @class */ (function () {
     function NgSmartTabsModule() {
     }
@@ -20,4 +21,4 @@ var NgSmartTabsModule = /** @class */ (function () {
     return NgSmartTabsModule;
 }());
 export { NgSmartTabsModule };
-//# sourceMappingURL=luno-follow-line.module.js.map
+//# sourceMappingURL=follow-line.module.js.map

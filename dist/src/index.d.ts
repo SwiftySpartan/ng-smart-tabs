@@ -1,2 +1,2 @@
-export * from './luno-follow-line.directive';
-export * from './luno-follow-line.module';
+export * from './follow-line.directive';
+export * from './follow-line.module';

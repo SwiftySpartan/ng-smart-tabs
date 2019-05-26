@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgSmartTabsDirective } from './luno-follow-line.directive';
+import { NgSmartTabsDirective } from './follow-line.directive';
+
+export { NgSmartTabsDirective }
 
 @NgModule({
   imports: [
