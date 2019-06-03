@@ -1,6 +1,6 @@
 {
   "name": "ng-smart-tabs",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "",
   "main": "bundles/ng-smart-tabs.umd.js",
   "module": "index.js",

@@ -20,11 +20,31 @@ export class NgSmartTabsDirective implements AfterViewInit {
   @Input() widthChangeSpeed: string = '0.35';
   @Input() zIndex: number = 1;
 
+  index: number = 0;
+
+  static selectedItem: number = 0;
+  static instanceCounter: number = 0;
+
   @HostListener('click') onClick() {
     this.setLine();
   }
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    this.index = NgSmartTabsDirective.instanceCounter;
+    NgSmartTabsDirective.instanceCounter++;
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.el.nativeElement.style.outline = 'none';
+    // Only needs first angular identifier as only one is needed
+    this.parentAttributeIdentifier = this.el.nativeElement.parentElement.attributes[0].name;
+
+    this.nativeElement = this.el.nativeElement as HTMLElement;
+    if (this.activeOnUrlMatch) {
+      this.urlMatcher(location.pathname);
+    }
+  }
 
   ngAfterViewInit() {
     this.el.nativeElement.style.outline = 'none';
@@ -61,6 +81,7 @@ export class NgSmartTabsDirective implements AfterViewInit {
   }
 
   private setLine() {
+    NgSmartTabsDirective.selectedItem = this.index;
     this.followLine = document.getElementById(`${this.parentAttributeIdentifier}-follow-line`) as HTMLElement;
     if (!this.followLine) {
       return this.createNewFollowLine(this.el.nativeElement);

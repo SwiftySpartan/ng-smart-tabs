@@ -16,9 +16,21 @@ var NgSmartTabsDirective = /** @class */ (function () {
         this.opacityChangeSpeed = '1.25';
         this.widthChangeSpeed = '0.35';
         this.zIndex = 1;
+        this.index = 0;
+        this.index = NgSmartTabsDirective.instanceCounter;
+        NgSmartTabsDirective.instanceCounter++;
     }
     NgSmartTabsDirective.prototype.onClick = function () {
         this.setLine();
+    };
+    NgSmartTabsDirective.prototype.onResize = function () {
+        this.el.nativeElement.style.outline = 'none';
+        // Only needs first angular identifier as only one is needed
+        this.parentAttributeIdentifier = this.el.nativeElement.parentElement.attributes[0].name;
+        this.nativeElement = this.el.nativeElement;
+        if (this.activeOnUrlMatch) {
+            this.urlMatcher(location.pathname);
+        }
     };
     NgSmartTabsDirective.prototype.ngAfterViewInit = function () {
         this.el.nativeElement.style.outline = 'none';
@@ -49,6 +61,7 @@ var NgSmartTabsDirective = /** @class */ (function () {
         document.body.appendChild(this.followLine);
     };
     NgSmartTabsDirective.prototype.setLine = function () {
+        NgSmartTabsDirective.selectedItem = this.index;
         this.followLine = document.getElementById(this.parentAttributeIdentifier + "-follow-line");
         if (!this.followLine) {
             return this.createNewFollowLine(this.el.nativeElement);
@@ -95,6 +108,8 @@ var NgSmartTabsDirective = /** @class */ (function () {
             }
         }
     };
+    NgSmartTabsDirective.selectedItem = 0;
+    NgSmartTabsDirective.instanceCounter = 0;
     NgSmartTabsDirective.decorators = [
         { type: _angular_core.Directive, args: [{
                     selector: '[ng-smart-tab]'
@@ -116,7 +131,8 @@ var NgSmartTabsDirective = /** @class */ (function () {
         opacityChangeSpeed: [{ type: _angular_core.Input }],
         widthChangeSpeed: [{ type: _angular_core.Input }],
         zIndex: [{ type: _angular_core.Input }],
-        onClick: [{ type: _angular_core.HostListener, args: ['click',] }]
+        onClick: [{ type: _angular_core.HostListener, args: ['click',] }],
+        onResize: [{ type: _angular_core.HostListener, args: ['window:resize',] }]
     };
     return NgSmartTabsDirective;
 }());

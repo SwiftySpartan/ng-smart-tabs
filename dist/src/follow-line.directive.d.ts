@@ -15,8 +15,12 @@ export declare class NgSmartTabsDirective implements AfterViewInit {
     opacityChangeSpeed: string;
     widthChangeSpeed: string;
     zIndex: number;
+    index: number;
+    static selectedItem: number;
+    static instanceCounter: number;
     onClick(): void;
     constructor(el: ElementRef);
+    onResize(): void;
     ngAfterViewInit(): void;
     private createNewFollowLine(shadowElement);
     private setLine();
